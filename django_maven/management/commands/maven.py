@@ -7,6 +7,7 @@ from django.core.management.base import (BaseCommand, handle_default_options,
                                          CommandError)
 
 from raven import Client
+from raven.utils import urlparse
 
 from django_maven.compat import OutputWrapper
 
@@ -69,6 +70,11 @@ class Command(BaseCommand):
                 else:
                     raise
                 sentry = Client(dsn)
+                # Force sync transport to avoid race condition with the process exiting
+                for url in sentry.servers:
+                    parsed = urlparse.urlparse(url)
+                    transport = sentry._registry.get_transport(parsed)
+                    transport.async = False
                 sentry.get_ident(sentry.captureException())
 
             self._write_error_in_stderr(e)
