@@ -28,7 +28,7 @@ class Command(BaseCommand):
         """ Modified version of parent class to send errors in the command to Sentry.
         """
         if len(argv) <= 2 or argv[2] in ['-h', '--help']:
-            print self.usage(argv[1])
+            print(self.usage(argv[1]))
             sys.exit(1)
 
         subcommand_class = self._get_subcommand_class(argv[2])
