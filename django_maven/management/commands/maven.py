@@ -4,7 +4,7 @@ from optparse import OptionParser
 from django.conf import settings
 from django.core.management import get_commands, load_command_class
 from django.core.management.base import (BaseCommand, handle_default_options,
-                                         CommandError)
+                                         CommandError, SystemCheckError)
 from django.db import connections
 
 
